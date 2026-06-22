@@ -164,9 +164,9 @@
                     </a>
                 </div>
                 <div class="col-lg-6 offset-lg-1">
-                    <form action="https://formsubmit.co/comessantiago@gmail.com" method="POST" class="p-4 p-md-5 rounded-4 shadow" style="background-color: var(--primary-bg); border: 1px solid rgba(255,255,255,0.05);">
+                    <!-- Se agregó el ID "contactForm" y "/ajax/" a la URL de action -->
+                    <form id="contactForm" action="https://formsubmit.co/ajax/comessantiago@gmail.com" method="POST" class="p-4 p-md-5 rounded-4 shadow" style="background-color: var(--primary-bg); border: 1px solid rgba(255,255,255,0.05);">
                         
-                        <!-- Configuraciones de FormSubmit -->
                         <input type="hidden" name="_subject" value="Nuevo contacto desde el Portfolio">
                         <input type="hidden" name="_captcha" value="false">
 
@@ -183,7 +183,7 @@
                             <textarea name="mensaje" class="form-control form-control-lg text-dark border-secondary" id="mensajeInput" rows="4" placeholder="Detalles de tu propuesta..." required></textarea>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-custom-accent btn-lg rounded-pill">Enviar Mensaje</button>
+                            <button type="submit" id="submitBtn" class="btn btn-custom-accent btn-lg rounded-pill">Enviar Mensaje</button>
                         </div>
                     </form>
                 </div>
@@ -204,5 +204,55 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script para envío asíncrono del formulario (AJAX) -->
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita que la página se recargue o redirija
+            
+            const form = e.target;
+            const btn = document.getElementById('submitBtn');
+            const originalBtnText = btn.innerHTML;
+            
+            // Estado de carga
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Enviando...';
+            btn.disabled = true;
+
+            // Enviar datos vía Fetch API
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Estado de éxito
+                    btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Mensaje Enviado';
+                    btn.classList.replace('btn-custom-accent', 'btn-success');
+                    form.reset(); // Limpia los campos
+                } else {
+                    throw new Error('Error en el servidor');
+                }
+            })
+            .catch(error => {
+                // Estado de error
+                console.error('Error al enviar el formulario:', error);
+                btn.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i> Error al enviar';
+                btn.classList.replace('btn-custom-accent', 'btn-danger');
+            })
+            .finally(() => {
+                // Restaurar el botón después de 4 segundos
+                setTimeout(() => {
+                    btn.innerHTML = originalBtnText;
+                    btn.classList.remove('btn-success', 'btn-danger');
+                    btn.classList.add('btn-custom-accent');
+                    btn.disabled = false;
+                }, 4000);
+            });
+        });
+    </script>
 </body>
 </html>
