@@ -164,18 +164,23 @@
                     </a>
                 </div>
                 <div class="col-lg-6 offset-lg-1">
-                    <form class="p-4 p-md-5 rounded-4 shadow" style="background-color: var(--primary-bg); border: 1px solid rgba(255,255,255,0.05);">
+                    <form action="https://formsubmit.co/comessantiago@gmail.com" method="POST" class="p-4 p-md-5 rounded-4 shadow" style="background-color: var(--primary-bg); border: 1px solid rgba(255,255,255,0.05);">
+                        
+                        <!-- Configuraciones de FormSubmit -->
+                        <input type="hidden" name="_subject" value="Nuevo contacto desde el Portfolio">
+                        <input type="hidden" name="_captcha" value="false">
+
                         <div class="mb-3">
                             <label for="nombreInput" class="form-label fw-semibold text-light">Nombre</label>
-                            <input type="text" class="form-control form-control-lg text-dark border-secondary" id="nombreInput" placeholder="Tu nombre" required>
+                            <input type="text" name="nombre" class="form-control form-control-lg text-dark border-secondary" id="nombreInput" placeholder="Tu nombre" required>
                         </div>
                         <div class="mb-3">
                             <label for="emailInput" class="form-label fw-semibold text-light">Email</label>
-                            <input type="email" class="form-control form-control-lg text-dark border-secondary" id="emailInput" placeholder="correo@ejemplo.com" required>
+                            <input type="email" name="email" class="form-control form-control-lg text-dark border-secondary" id="emailInput" placeholder="correo@ejemplo.com" required>
                         </div>
                         <div class="mb-4">
                             <label for="mensajeInput" class="form-label fw-semibold text-light">Mensaje</label>
-                            <textarea class="form-control form-control-lg text-dark border-secondary" id="mensajeInput" rows="4" placeholder="Detalles de tu propuesta..." required></textarea>
+                            <textarea name="mensaje" class="form-control form-control-lg text-dark border-secondary" id="mensajeInput" rows="4" placeholder="Detalles de tu propuesta..." required></textarea>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-custom-accent btn-lg rounded-pill">Enviar Mensaje</button>
